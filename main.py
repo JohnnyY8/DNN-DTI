@@ -33,7 +33,7 @@ FLAGS = flags.FLAGS
 if __name__ == "__main__":
   os.environ["CUDA_VISIBLE_DEVICES"] = FLAGS.gpuId
   insDataPro = DataPro(FLAGS)
-  #insDataPro.loadDataInL1000()
+  insDataPro.loadDataInL1000()
   insDataPro.loadOneCLData()
   insDataPro.transferLabel2TwoCol()
   numOfNeurons = [1956, 200, 10, 2]

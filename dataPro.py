@@ -53,7 +53,7 @@ class DataPro:
 
   # Get real negative tp data
   def getRealNegativeTpData(self):
-    realNegativeTpFilePath = os.path.join(self.dateRootPath, "real_negative_zzt", "tp_data_" + self.clName + "_978.npy")
+    realNegativeTpFilePath = os.path.join(self.dateRootPath, "real_negative", "tp_data_" + self.clName + "_978.npy")
     self.realNegativeTpData = np.load(realNegativeTpFilePath)
 
   # Get all data in 22268 dimensions
