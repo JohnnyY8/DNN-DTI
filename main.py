@@ -14,8 +14,8 @@ flags = tf.app.flags
 flags.DEFINE_string("gpuId", "0", "Which gpu is assigned.")
 flags.DEFINE_string("fileRootPath", "./files", "File path for all files.")
 flags.DEFINE_string("dataRootPath", "./files", "Data file path for all data.")
-flags.DEFINE_string("path4SaveEggsFile", "./", "The path for saving eggs file.")
-flags.DEFINE_string("path4SaveModel", "./trainedModel", "The path for saving model.")
+flags.DEFINE_string("path4SaveEggsFile", "./files", "The path for saving eggs file.")
+flags.DEFINE_string("path4SaveModel", "./files/trainedModel", "The path for saving model.")
 flags.DEFINE_string("oneCLDataPath4Training", "./files/4_training/PC3", "The path for training in one cell line.")
 flags.DEFINE_string("oneCLDataPath4GenerateEggs", "./files/after_merge/PC3", "The path for generating eggs in one cell line.")
 

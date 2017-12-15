@@ -1,4 +1,5 @@
-/files
-/scripts
-eggsfile.txt
+files/
+scripts/
 trainedModel/
+*.txt
+*.npy
