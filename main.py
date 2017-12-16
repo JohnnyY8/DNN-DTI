@@ -11,7 +11,7 @@ from modelTrainer import *
 from generateEggs import *
 
 flags = tf.app.flags
-flags.DEFINE_string("gpuId", "0", "Which gpu is assigned.")
+flags.DEFINE_string("gpuId", "3", "Which gpu is assigned.")
 flags.DEFINE_string("fileRootPath", "./files", "File path for all files.")
 flags.DEFINE_string("dataRootPath", "./files", "Data file path for all data.")
 flags.DEFINE_string("path4SaveEggsFile", "./files", "The path for saving eggs file.")
