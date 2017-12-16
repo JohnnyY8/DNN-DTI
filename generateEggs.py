@@ -27,13 +27,8 @@ class GenerateEggs():
           probRes = probTemp
         else:
           probRes = np.append(probRes, probTemp, axis = 0)
-      print "self.insDataPro.allUnlabeledData:", self.insDataPro.allUnlabeledData.shape
-      print "probRes.shape:", probRes.shape
-      #print "probRes:", probRes
-      #print sum(probRes[0])
-      #print sum(probRes[1])
-      #print sum(probRes[2])
-    
+      print "The number of unlabeled data and feature dimension are:", self.insDataPro.allUnlabeledData.shape
+
     with open(os.path.join(self.FLAGS.path4SaveEggsFile, "eggsfile.txt"), 'w') as filePointer:
       # Write drug names
       flag = 0
@@ -48,8 +43,6 @@ class GenerateEggs():
       # Write tp names and distance
       ind4dis = 0
       distance = self.insDataPro.calcDistance(probRes)
-      print "distance.shape:", distance.shape
-      print "self.insDataPro.mapMatrix.shape:", self.insDataPro.mapMatrix.shape, np.sum(self.insDataPro.mapMatrix)
       count4Eggs = 0.0
       for ind, iele in enumerate(self.insDataPro.tpName):
         strLine = str(iele)
@@ -63,4 +56,4 @@ class GenerateEggs():
             strLine += '\t' + "6666666"
         strLine += '\n'
         filePointer.write(strLine)
-      print "The rate of eggs is:", count4Eggs / self.insDataPro.allUnlabeledData.shape[0]
+      print "The percentage of positive cases is:", count4Eggs / self.insDataPro.allUnlabeledData.shape[0]
