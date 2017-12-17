@@ -28,9 +28,7 @@ class ModelTrainer:
 
       saver = tf.train.Saver()
       init = tf.global_variables_initializer()
-      print "==================================="
       sess.run(init)
-      print "+++++++++++++++++++++++++++++++++++"
       while True:
         trainIndex = np.array(range(self.xTrain.shape[0]))
         random.shuffle(trainIndex)
