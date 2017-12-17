@@ -19,7 +19,7 @@ class GenerateEggs():
       xData = graph.get_operation_by_name("xData").outputs[0]
       yLabel = graph.get_operation_by_name("yLabel").outputs[0]
       yOutput = graph.get_operation_by_name("outputLayer/hOutput").outputs[0]
-      keepProb = graph.get_operation_by_name("keepProb").outputs[0]
+      keepProb = graph.get_operation_by_name("dropOut/keepProb").outputs[0]
       for i in xrange(0, self.insDataPro.allUnlabeledData.shape[0], self.FLAGS.batchSize):
         feedData = {xData: self.insDataPro.allUnlabeledData[i: i + self.FLAGS.batchSize], yLabel: np.zeros((self.FLAGS.batchSize, 2)), keepProb: 1.0}
         probTemp = sess.run(yOutput, feed_dict = feedData)
