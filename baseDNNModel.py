@@ -72,5 +72,3 @@ class BaseDNNModel(CommonModelFunc):
       tf.summary.scalar("accuracy", self.accuracy)
 
     self.merged = tf.summary.merge_all()
-    self.trainWriter = tf.summary.FileWriter(os.path.join(self.FLAGS.path4Summaries, "train"), sess.graph)
-    self.testWriter = tf.summary.FileWriter(os.path.join(self.FLAGS.path4Summaries, "test"))

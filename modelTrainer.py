@@ -25,6 +25,9 @@ class ModelTrainer:
     with tf.Session() as sess:
       oldTrainAccu, newTrainAccu, bestValAccu = 0.0, 0.0, 0.0
       flag = num4Epoches = 0
+      
+      self.trainWriter = tf.summary.FileWriter(os.path.join(self.FLAGS.path4Summaries, "train"), sess.graph)
+      self.testWriter = tf.summary.FileWriter(os.path.join(self.FLAGS.path4Summaries, "test"))
 
       saver = tf.train.Saver()
       init = tf.global_variables_initializer()
@@ -35,10 +38,14 @@ class ModelTrainer:
         print "No.%d epoch is starting..." % (num4Epoches)
         for ind in xrange(0, self.xTrain.shape[0], self.FLAGS.batchSize):
           batchXs, batchYs = self.xTrain[trainIndex[ind: ind + self.FLAGS.batchSize]], self.yTrain[trainIndex[ind: ind + self.FLAGS.batchSize]]
-          #newTrainLoss, newTrainAccu, tempTS = sess.run([self.insModel.loss, self.insModel.accuracy, self.insModel.trainStep], feed_dict = {self.insModel.xData: batchXs, self.insModel.yLabel: batchYs, self.insModel.keepProb: self.FLAGS.dropOutRate})
-          newTrainLoss, newTrainAccu, summary, tempTS = sess.run([self.insModel.loss, self.insModel.accuracy, self.insModel.merged, self.insModel.trainStep], feed_dict = {self.insModel.xData: batchXs, self.insModel.yLabel: batchYs, self.insModel.keepProb: self.FLAGS.dropOutRate})
+          newTrainLoss, newTrainAccu, tempTS = sess.run([self.insModel.loss, self.insModel.accuracy, self.insModel.trainStep], feed_dict = {self.insModel.xData: batchXs, self.insModel.yLabel: batchYs, self.insModel.keepProb: self.FLAGS.dropOutRate})
+          print "newTrainLoss:", newTrainLoss
+          raw_input("...")
+          #newTrainLoss, newTrainAccu, summary, tempTS = sess.run([self.insModel.loss, self.insModel.accuracy, self.insModel.merged, self.insModel.trainStep], feed_dict = {self.insModel.xData: batchXs, self.insModel.yLabel: batchYs, self.insModel.keepProb: self.FLAGS.dropOutRate})
+          #summary = sess.run(self.insModel.merged, feed_dict = {self.insModel.xData: batchXs, self.insModel.yLabel: batchYs, self.insModel.keepProb: self.FLAGS.dropOutRate})
           ind4Summary = num4Epoches * math.ceil(self.xTrain.shape[0] * 1.0 / self.FLAGS.batchSize) + ind / self.FLAGS.batchSize
-          self.insModel.trainWriter.add_summary(summary, ind4Summary)
+          print "ind4Summary:", ind4Summary
+          #self.trainWriter.add_summary(summary, ind4Summary)
           self.insResultStorer.addLoss(newTrainLoss)
           self.insResultStorer.addTrainAccu(newTrainAccu)
           print "  The loss is %.6f. The training accuracy is %.6f..." % (newTrainLoss, newTrainAccu)
@@ -51,7 +58,7 @@ class ModelTrainer:
           oldTrainAccu = newTrainAccu
         #newValAccu = sess.run(self.insModel.accuracy, feed_dict = {self.insModel.xData: self.xTest, self.insModel.yLabel: self.yTest, self.insModel.keepProb: 1.0})
         summary, newValAccu = sess.run([self.insModel.merged, self.insModel.accuracy], feed_dict = {self.insModel.xData: self.xTest, self.insModel.yLabel: self.yTest, self.insModel.keepProb: 1.0})
-        self.insModel.testWriter.add_summary(summary, num4Epoches)
+        self.testWriter.add_summary(summary, num4Epoches)
         self.insResultStorer.addValAccu(newValAccu)
         print "    The validation accuracy is %.6f..." % (newValAccu)
 
