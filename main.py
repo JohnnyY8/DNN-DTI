@@ -27,7 +27,7 @@ flags.DEFINE_float("threshold4Val", 0.5, "The threshold for validation data.")
 flags.DEFINE_float("threshold4Convegence", 1e-40, "The threshold for training convegence.")
 
 flags.DEFINE_integer("batchSize", 150, "How many samples are trained in each iteration.")
-flags.DEFINE_integer("trainEpoches", 1e3, "How many times training through all train data.")
+flags.DEFINE_integer("trainEpoches", 1000, "How many times training through all train data.")
 flags.DEFINE_integer("nWeight", 10, "The weighted for negative samples in objective funcion.")
 FLAGS = flags.FLAGS
 
