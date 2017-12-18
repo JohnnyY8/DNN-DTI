@@ -3,4 +3,3 @@ scripts/
 trainedModel/
 *.txt
 *.npy
-*.sh
