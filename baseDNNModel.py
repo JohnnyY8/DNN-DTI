@@ -32,9 +32,13 @@ class BaseDNNModel(CommonModelFunc):
         with tf.variable_scope(name4VariableScope):
           name4Weight, name4Bias, name4Act = "wOutput", "bOutput", "hOutput"
           wHidden = self.init_weight_variable(name4Weight, [self.numOfNeurons[ind - 1], ele])
+          self.variable_summaries(wHidden)
           bHidden = self.init_bias_variable(name4Bias, [ele])
+          self.variable_summaries(bHidden)
           self.hOutput = tf.matmul(hHidden, wHidden) + bHidden
+          self.variable_summaries(self.hOutput)
           self.yOutput = tf.nn.softmax(self.hOutput, name = name4Act)
+          self.variable_summaries(self.yOutput)
 
       else:  # Hidden layer
         name4VariableScope = "hidden" + str(ind) + "Layer"
