@@ -75,4 +75,8 @@ class ModelTrainer:
           print "The model saved in file:", savePath
           break
         num4Epoches += 1
+
+    self.trainWriter.flush()
+    self.testWriter.flush()
+
     return savePath
