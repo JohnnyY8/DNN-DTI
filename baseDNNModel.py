@@ -15,7 +15,6 @@ class BaseDNNModel(CommonModelFunc):
 
   # Building DNN graph for base model
   def buildBaseDNNModelGraph(self):
-    #with tf.device("/gpu:0"):
     self.init = tf.global_variables_initializer()
 
     with tf.name_scope("dropOut"): 
@@ -31,7 +30,8 @@ class BaseDNNModel(CommonModelFunc):
         name4VariableScope = "outputLayer"
         with tf.variable_scope(name4VariableScope):
           name4Weight, name4Bias, name4Act = "wOutput", "bOutput", "hOutput"
-          wHidden = self.init_weight_variable(name4Weight, [self.numOfNeurons[ind - 1], ele])
+          wHidden = self.init_weight_variable(name4Weight, 
+                                              [self.numOfNeurons[ind - 1], ele])
           self.variable_summaries(wHidden)
           bHidden = self.init_bias_variable(name4Bias, [ele])
           self.variable_summaries(bHidden)
