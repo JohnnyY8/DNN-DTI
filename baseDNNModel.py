@@ -43,16 +43,20 @@ class BaseDNNModel(CommonModelFunc):
       else:  # Hidden layer
         name4VariableScope = "hidden" + str(ind) + "Layer"
         with tf.variable_scope(name4VariableScope):
-          name4Weight, name4Bias, name4PreAct, name4Act = "wHidden" + str(ind), "bHidden" + str(ind), "preAct" + str(ind), "hHidden" + str(ind)
-          wHidden = self.init_weight_variable(name4Weight, [self.numOfNeurons[ind - 1], ele])
+          name4Weight, name4Bias = "wHidden" + str(ind), "bHidden" + str(ind)
+          name4PreAct, name4Act = "preAct" + str(ind), "hHidden" + str(ind)
+          wHidden = self.init_weight_variable(name4Weight,
+                                              [self.numOfNeurons[ind - 1], ele])
           self.variable_summaries(wHidden)
           bHidden = self.init_bias_variable(name4Bias, [ele])
           self.variable_summaries(bHidden)
           if ind == 1:
-            preAct = tf.add(tf.matmul(self.xData, wHidden), bHidden, name = name4PreAct)
+            preAct = tf.add(tf.matmul(self.xData, wHidden),
+                            bHidden, name = name4PreAct)
             hHidden = tf.nn.relu(preAct, name = name4Act)
           else:
-            preAct = tf.add(tf.matmul(hHidden, wHidden), bHidden, name = name4PreAct)
+            preAct = tf.add(tf.matmul(hHidden, wHidden),
+                            bHidden, name = name4PreAct)
             hHidden = tf.nn.relu(preAct, name = name4Act)
           self.variable_summaries(preAct)
           if ind == self.numOfLayers - 2:
