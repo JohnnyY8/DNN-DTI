@@ -70,7 +70,9 @@ class BaseDNNModel(CommonModelFunc):
       pRes = tf.matmul(pItem, tf.constant([[0.], [1.]]))
       nRes = tf.matmul(nItem, tf.constant([[1.], [0.]]))
       nMistakeRes = tf.matmul(pMistakeItem, tf.constant([[1.], [0.]]))
-      self.loss = tf.subtract(tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = self.hOutput, labels = self.yLabel)), self.FLAGS.nWeight * nMistakeRes, name = "loss")
+      self.loss = tf.subtract(tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = self.hOutput,
+                                                                                     labels = self.yLabel)),
+                              self.FLAGS.nWeight * nMistakeRes, name = "loss")
       tf.summary.scalar("lossValue", tf.reduce_mean(self.loss))
       self.trainStep = tf.train.AdamOptimizer(self.FLAGS.learningRate).minimize(self.loss)
       correctPrediction = tf.equal(tf.argmax(self.yOutput, 1), tf.argmax(self.yLabel, 1))
