@@ -3,3 +3,4 @@ scripts/
 trainedModel/
 *.txt
 *.npy
+*.pyc
