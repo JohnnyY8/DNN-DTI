@@ -9,5 +9,9 @@ class DataSpliter:
     self.insDataPro = insDataPro
 
   def splitData2TrainAndVal(self):
-    xTrain, xTest, yTrain, yTest = train_test_split(self.insDataPro.allTrainData, self.insDataPro.allTrainLabel, test_size = self.FLAGS.testSize, random_state = 42)
+    xTrain, xTest, yTrain, yTest = train_test_split(
+        self.insDataPro.allTrainData,
+        self.insDataPro.allTrainLabel,
+        test_size = self.FLAGS.testSize,
+        random_state = 42)
     return xTrain, xTest, yTrain, yTest

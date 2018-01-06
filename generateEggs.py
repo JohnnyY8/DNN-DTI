@@ -20,16 +20,31 @@ class GenerateEggs():
       yLabel = graph.get_operation_by_name("yLabel").outputs[0]
       yOutput = graph.get_operation_by_name("outputLayer/hOutput").outputs[0]
       keepProb = graph.get_operation_by_name("dropOut/keepProb").outputs[0]
-      for i in xrange(0, self.insDataPro.allUnlabeledData.shape[0], self.FLAGS.batchSize):
-        feedData = {xData: self.insDataPro.allUnlabeledData[i: i + self.FLAGS.batchSize], yLabel: np.zeros((self.FLAGS.batchSize, 2)), keepProb: 1.0}
+
+      for i in xrange(0,
+          self.insDataPro.allUnlabeledData.shape[0],
+          self.FLAGS.batchSize):
+
+        feedData = {
+            xData: self.insDataPro.allUnlabeledData[
+                i: i + self.FLAGS.batchSize],
+            yLabel: np.zeros((self.FLAGS.batchSize, 2)),
+            keepProb: 1.0}
+
         probTemp = sess.run(yOutput, feed_dict = feedData)
         if i == 0:
           probRes = probTemp
         else:
           probRes = np.append(probRes, probTemp, axis = 0)
-      print "The number of unlabeled data and feature dimension are:", self.insDataPro.allUnlabeledData.shape
+      print "The number of unlabeled data and feature dimension are:", \
+          self.insDataPro.allUnlabeledData.shape
 
-    with open(os.path.join(self.FLAGS.path4SaveEggsFile, "eggsfile.txt"), 'w') as filePointer:
+    with open(
+        os.path.join(
+            self.FLAGS.path4SaveEggsFile,
+            "eggsfile.txt"), 
+        'w') as filePointer:
+
       # Write drug names
       flag = 0
       for iele in self.insDataPro.drugName:
@@ -56,4 +71,5 @@ class GenerateEggs():
             strLine += '\t' + "6666666"
         strLine += '\n'
         filePointer.write(strLine)
-      print "The percentage of positive cases is:", count4Eggs / self.insDataPro.allUnlabeledData.shape[0]
+      print "The percentage of positive cases is:", \
+          count4Eggs / self.insDataPro.allUnlabeledData.shape[0]

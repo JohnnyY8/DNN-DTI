@@ -10,17 +10,39 @@ class DataPro:
     print "1.PC3; 2.VCAP; 3.A375; 4.A549; 5.HA1E; 6.HCC515; 7.HEPG2;"
     #numCl = input("Please choose the number for cell line: ")
     numCl = 1
-    dictCl = {1: "PC3", 2: "VCAP", 3: "A375", 4: "A549", 5: "HA1E", 6: "HCC515", 7: "HEPG2"}
+    dictCl = {
+        1: "PC3",
+        2: "VCAP",
+        3: "A375",
+        4: "A549",
+        5: "HA1E",
+        6: "HCC515",
+        7: "HEPG2"}
     self.clName = dictCl[numCl]
     self.fileRootPath = FLAGS.fileRootPath 
     self.dateRootPath = FLAGS.dataRootPath
-    self.cpShPath = os.path.join(FLAGS.dataRootPath, "drug_data/cp_sh", "cp_sh_map_" + self.clName + ".txt")
-    self.trtCpPath = os.path.join(FLAGS.dataRootPath, "trt_cp_" + self.clName + ".txt")
-    self.trtShPath = os.path.join(FLAGS.dataRootPath, "trt_sh_" + self.clName + ".txt")
-    self.dnaIdPath = os.path.join(FLAGS.dataRootPath, "dna_id_file.txt")
-    self.mergeSameDrugMapFilePath = os.path.join(FLAGS.fileRootPath, "trt_cp.info")
-    self.L1000GeneIdFilePath = os.path.join(FLAGS.fileRootPath, "Gene_ID.txt")
-    self.L1000MapFilePath = os.path.join(FLAGS.fileRootPath, "GPL96.annot")
+    self.cpShPath = os.path.join(
+        FLAGS.dataRootPath,
+        "drug_data/cp_sh",
+        "cp_sh_map_" + self.clName + ".txt")
+    self.trtCpPath = os.path.join(
+        FLAGS.dataRootPath,
+        "trt_cp_" + self.clName + ".txt")
+    self.trtShPath = os.path.join(
+        FLAGS.dataRootPath,
+        "trt_sh_" + self.clName + ".txt")
+    self.dnaIdPath = os.path.join(
+        FLAGS.dataRootPath,
+        "dna_id_file.txt")
+    self.mergeSameDrugMapFilePath = os.path.join(
+        FLAGS.fileRootPath,
+        "trt_cp.info")
+    self.L1000GeneIdFilePath = os.path.join(
+        FLAGS.fileRootPath,
+        "Gene_ID.txt")
+    self.L1000MapFilePath = os.path.join(
+        FLAGS.fileRootPath,
+        "GPL96.annot")
 
   # Get drug sample id and drug data
   def getDrugSampleIdAndDrugData(self):
@@ -49,11 +71,16 @@ class DataPro:
     with open(self.cpShPath) as filePointer:
       fileLines = filePointer.readlines()
     fileLines = [fileLine[: -1].split('\t') for fileLine in fileLines]
-    self.yLabel = np.array([fileLine[1: ] for fileLine in fileLines[1: ]], dtype = "float")
+    self.yLabel = np.array(
+        [fileLine[1: ] for fileLine in fileLines[1: ]],
+        dtype = "float")
 
   # Get real negative tp data
   def getRealNegativeTpData(self):
-    realNegativeTpFilePath = os.path.join(self.dateRootPath, "real_negative", "tp_data_" + self.clName + "_978.npy")
+    realNegativeTpFilePath = os.path.join(
+        self.dateRootPath,
+        "real_negative",
+        "tp_data_" + self.clName + "_978.npy")
     self.realNegativeTpData = np.load(realNegativeTpFilePath)
 
   # Get all data in 22268 dimensions
@@ -68,7 +95,8 @@ class DataPro:
   # Merge data from the same drug
   def mergeDataFromSameDrug():
     sampleIdNew, xDataNew = [], []
-    # Create dict with the key of drug and the value of samples in this cell line
+    # Create dict with the key of drug and the value of samples
+    #     in this cell line
     dictDrugSample = {}
     with open(self.mergeSameDrugMapFilePath) as mapFile:
       fileLines = mapFile.readlines()
@@ -88,9 +116,11 @@ class DataPro:
       sampleIdNew.append(eachKey)
       for i, iele in enumerate(eachValue):
         if i == 0:
-          eachxDataNew = np.array(self.drugData[np.where(self.drugSampleId == iele)[0][0]])
+          eachxDataNew = np.array(
+              self.drugData[np.where(self.drugSampleId == iele)[0][0]])
         else:
-          eachxDataNew += np.array(self.drugData[np.where(self.drugSampleId == iele)[0][0]])
+          eachxDataNew += np.array(
+              self.drugData[np.where(self.drugSampleId == iele)[0][0]])
       xDataNew.append(list(eachxDataNew / len(eachValue)))
     self.drugSampleId = np.array(sampleIdNew)
     self.drugData = np.array(xDataNew)
@@ -117,9 +147,11 @@ class DataPro:
     for listLine in listLines:
       if listLine[3] in L1000GeneId:
         if not dictL1000GeneIdDnaId.has_key(listLine[3]):
-          dictL1000GeneIdDnaId[listLine[3]] = [np.where(self.dnaId == listLine[0])[0][0]]
+          dictL1000GeneIdDnaId[listLine[3]] = [
+              np.where(self.dnaId == listLine[0])[0][0]]
         else:
-          dictL1000GeneIdDnaId[listLine[3]].append(np.where(self.dnaId == listLine[0])[0][0])
+          dictL1000GeneIdDnaId[listLine[3]].append(
+              np.where(self.dnaId == listLine[0])[0][0])
     for eachKey in dictL1000GeneIdDnaId:
       dnaIdNew.append(eachKey)
     # Merge dna id according to gene id
@@ -145,16 +177,34 @@ class DataPro:
 
   # Load preprocessed data for training and validation
   def loadDataAndLabel(self, basePath4DataAndLabel):
-    self.allTrainData = np.load(os.path.join(basePath4DataAndLabel, "allTrainDataFor5Cl.npy"))
-    self.allTrainLabel = np.load(os.path.join(basePath4DataAndLabel, "allTrainLabelFor5Cl.npy"))
-    self.allValData = np.load(os.path.join(basePath4DataAndLabel, "allValDataFor5Cl.npy"))
-    self.allValLabel = np.load(os.path.join(basePath4DataAndLabel, "allValLabelFor5Cl.npy"))
+    self.allTrainData = np.load(
+        os.path.join(
+            basePath4DataAndLabel,
+            "allTrainDataFor5Cl.npy"))
+    self.allTrainLabel = np.load(
+        os.path.join(
+            basePath4DataAndLabel,
+            "allTrainLabelFor5Cl.npy"))
+    self.allValData = np.load(
+        os.path.join(
+            basePath4DataAndLabel,
+            "allValDataFor5Cl.npy"))
+    self.allValLabel = np.load(
+        os.path.join(
+            basePath4DataAndLabel,
+            "allValLabelFor5Cl.npy"))
     print "Load preprocessed data for training and validation is done..."
 
   # Load one cell line data
   def loadOneCLData(self):
-    self.allTrainData = np.load(os.path.join(self.FLAGS.oneCLDataPath4Training, "x_data.npy"))
-    self.allTrainLabel = np.load(os.path.join(self.FLAGS.oneCLDataPath4Training, "y_label.npy"))
+    self.allTrainData = np.load(
+        os.path.join(
+            self.FLAGS.oneCLDataPath4Training,
+            "x_data.npy"))
+    self.allTrainLabel = np.load(
+        os.path.join(
+            self.FLAGS.oneCLDataPath4Training,
+            "y_label.npy"))
     print "Load %s cell line data is done..." % (self.clName)
 
   # Transfer label from one col to two cols
@@ -166,13 +216,30 @@ class DataPro:
 
   # Generate unlabeled data for eggs
   def generateUnlabeledData4Eggs(self):
-    self.tpName = np.load(os.path.join(self.FLAGS.oneCLDataPath4GenerateEggs, "tp_name.npy"))
-    tpData = np.load(os.path.join(self.FLAGS.oneCLDataPath4GenerateEggs, "tp_data.npy"))
-    self.drugName = np.load(os.path.join(self.FLAGS.oneCLDataPath4GenerateEggs, "drug_name.npy"))
-    drugData = np.load(os.path.join(self.FLAGS.oneCLDataPath4GenerateEggs, "drug_data.npy"))
-    self.mapMatrix = np.load(os.path.join(self.FLAGS.oneCLDataPath4GenerateEggs, "new_label.npy"))
+    self.tpName = np.load(
+        os.path.join(
+            self.FLAGS.oneCLDataPath4GenerateEggs,
+            "tp_name.npy"))
+    tpData = np.load(
+        os.path.join(
+            self.FLAGS.oneCLDataPath4GenerateEggs,
+            "tp_data.npy"))
+    self.drugName = np.load(
+        os.path.join(
+            self.FLAGS.oneCLDataPath4GenerateEggs,
+            "drug_name.npy"))
+    drugData = np.load(
+        os.path.join(
+            self.FLAGS.oneCLDataPath4GenerateEggs,
+            "drug_data.npy"))
+    self.mapMatrix = np.load(
+        os.path.join(
+            self.FLAGS.oneCLDataPath4GenerateEggs,
+            "new_label.npy"))
+
     nonZeroIndex = np.where(self.mapMatrix == 0)
-    self.allUnlabeledData = np.hstack((self.tpData[nonZeroIndex[0]], self.drugData[nonZeroIndex[1]]))
+    self.allUnlabeledData = np.hstack(
+        (self.tpData[nonZeroIndex[0]], self.drugData[nonZeroIndex[1]]))
     print "Generate unlabeled data is done..."
 
   # Calc all distance
@@ -182,15 +249,25 @@ class DataPro:
 
   # Load ensemble data
   def loadEnsembleDataAndLabel(self, ensembleDataPath):
-    self.positiveData = np.load(os.path.join(ensembleDataPath, "positiveDataAppendZeros.npy"))
-    self.negativeData = np.load(os.path.join(ensembleDataPath, "negativeDataAppendZeros.npy"))
+    self.positiveData = np.load(
+        os.path.join(
+            ensembleDataPath,
+            "positiveDataAppendZeros.npy"))
+    self.negativeData = np.load(
+        os.path.join(
+            ensembleDataPath,
+            "negativeDataAppendZeros.npy"))
+
     self.allTrainData = np.vstack((self.positiveData, self.negativeData))
     self.buildEnsembleLabel()
     print "Load ensemble data and label is done..."
 
   # Build ensemble label
   def buildEnsembleLabel(self):
-    positiveLabel, negativeLabel = np.ones(self.positiveData.shape[0]), np.zeros(self.negativeData.shape[0])
+    positiveLabel, negativeLabel = \
+        np.ones(self.positiveData.shape[0]), \
+        np.zeros(self.negativeData.shape[0])
+
     self.allTrainLabel = np.append(positiveLabel, negativeLabel)
     self.transferLabel2TwoCol()
     print "Build ensemble label is done..."
