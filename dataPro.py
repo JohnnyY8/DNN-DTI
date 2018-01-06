@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 
 class DataPro:
-  
+
   def __init__(self, FLAGS):
     self.FLAGS = FLAGS
     print "1.PC3; 2.VCAP; 3.A375; 4.A549; 5.HA1E; 6.HCC515; 7.HEPG2;"
@@ -19,7 +19,7 @@ class DataPro:
         6: "HCC515",
         7: "HEPG2"}
     self.clName = dictCl[numCl]
-    self.fileRootPath = FLAGS.fileRootPath 
+    self.fileRootPath = FLAGS.fileRootPath
     self.dateRootPath = FLAGS.dataRootPath
     self.cpShPath = os.path.join(
         FLAGS.dataRootPath,

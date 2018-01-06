@@ -106,4 +106,3 @@ if __name__ == "__main__":
   modelSavePath = insModelTrainer.trainDNN()
   insGenerateEggs = GenerateEggs(FLAGS, insDataPro, modelSavePath)
   insGenerateEggs.generateEggs2Files()
-  

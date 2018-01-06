@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 
 class GenerateEggs():
-  
+ 
   def __init__(self, FLAGS, insDataPro, modelSavePath):
     self.FLAGS = FLAGS
     self.insDataPro = insDataPro
@@ -71,5 +71,6 @@ class GenerateEggs():
             strLine += '\t' + "6666666"
         strLine += '\n'
         filePointer.write(strLine)
+
       print "The percentage of positive cases is:", \
           count4Eggs / self.insDataPro.allUnlabeledData.shape[0]

@@ -7,7 +7,7 @@ import tensorflow as tf
 from commonModelFunc import *
 
 class BaseDNNModel(CommonModelFunc):
-  
+
   def __init__(self, FLAGS, numOfNeurons):
     self.FLAGS = FLAGS
     self.numOfNeurons = np.array(numOfNeurons)
@@ -17,7 +17,7 @@ class BaseDNNModel(CommonModelFunc):
   def buildBaseDNNModelGraph(self):
     self.init = tf.global_variables_initializer()
 
-    with tf.name_scope("dropOut"): 
+    with tf.name_scope("dropOut"):
       self.keepProb = tf.placeholder(tf.float32, name = "keepProb")
       tf.summary.scalar("dropOutKeepProbability", self.keepProb)
 
