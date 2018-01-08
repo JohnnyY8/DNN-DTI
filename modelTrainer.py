@@ -44,7 +44,7 @@ class ModelTrainer:
       while True:
         trainIndex = np.array(range(self.xTrain.shape[0]))
         random.shuffle(trainIndex)
-        print "No.%d epoch is starting..." % (num4Epoches)
+        print("No.%d epoch is starting..." % (num4Epoches))
         for ind in xrange(0,
             self.xTrain.shape[0],
             self.FLAGS.batchSize):
@@ -75,7 +75,7 @@ class ModelTrainer:
             self.trainWriter.add_run_metadata(
                 run_metadata,
                 "step%d" % ind4Summary)
-            print "Adding run metadat for", ind4Summary
+            print("Adding run metadat for", ind4Summary)
             self.trainWriter.add_summary(summary, ind4Summary)
 
           else:  # Record a summary
@@ -92,8 +92,8 @@ class ModelTrainer:
 
           self.insResultStorer.addLoss(newTrainLoss)
           self.insResultStorer.addTrainAccu(newTrainAccu)
-          print "  The loss is %.6f. The training accuracy is %.6f..." % \
-              (newTrainLoss, newTrainAccu)
+          print("  The loss is %.6f. The training accuracy is %.6f..." % \
+              (newTrainLoss, newTrainAccu))
 
           if flag == 0:
             flag = 1
@@ -112,7 +112,7 @@ class ModelTrainer:
                  self.insModel.keepProb: 1.0})
         self.testWriter.add_summary(summary, num4Epoches)
         self.insResultStorer.addValAccu(newValAccu)
-        print "    The validation accuracy is %.6f..." % (newValAccu)
+        print("    The validation accuracy is %.6f..." % (newValAccu))
 
         if newValAccu > bestValAccu:
           bestValAccu = newValAccu
@@ -121,8 +121,8 @@ class ModelTrainer:
               os.path.join(self.FLAGS.path4SaveModel, "model.ckpt"))
 
         if flag == 2 and num4Epoches >= self.FLAGS.trainEpoches:
-          print "The training process is done..."
-          print "The model saved in file:", savePath
+          print("The training process is done...")
+          print("The model saved in file:", savePath)
           break
         num4Epoches += 1
 
