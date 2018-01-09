@@ -7,7 +7,7 @@ class DataPro:
 
   def __init__(self, FLAGS):
     self.FLAGS = FLAGS
-    print "1.PC3; 2.VCAP; 3.A375; 4.A549; 5.HA1E; 6.HCC515; 7.HEPG2;"
+    print("1.PC3; 2.VCAP; 3.A375; 4.A549; 5.HA1E; 6.HCC515; 7.HEPG2;")
     #numCl = input("Please choose the number for cell line: ")
     numCl = 1
     dictCl = {
@@ -90,7 +90,7 @@ class DataPro:
     self.getDnaId()
     self.getyLabel()
     self.getRealNegativeTpData()
-    print "Load all data in 22268 dimensions is done..."
+    print("Load all data in 22268 dimensions is done...")
 
   # Merge data from the same drug
   def mergeDataFromSameDrug():
@@ -124,7 +124,7 @@ class DataPro:
       xDataNew.append(list(eachxDataNew / len(eachValue)))
     self.drugSampleId = np.array(sampleIdNew)
     self.drugData = np.array(xDataNew)
-    print "Merging data from same drug is done..."
+    print("Merging data from same drug is done...")
 
   # Merge L1000 dna id according to all gene id
   def mergeDnaId(self, xData):
@@ -173,7 +173,7 @@ class DataPro:
     self.loadAllData()
     self.drugData = self.mergeDnaId(self.drugData)
     self.tpData = self.mergeDnaId(self.tpData)
-    print "Load all data in L1000 manner is done..."
+    print("Load all data in L1000 manner is done...")
 
   # Load preprocessed data for training and validation
   def loadDataAndLabel(self, basePath4DataAndLabel):
@@ -193,7 +193,7 @@ class DataPro:
         os.path.join(
             basePath4DataAndLabel,
             "allValLabelFor5Cl.npy"))
-    print "Load preprocessed data for training and validation is done..."
+    print("Load preprocessed data for training and validation is done...")
 
   # Load one cell line data
   def loadOneCLData(self):
@@ -205,14 +205,14 @@ class DataPro:
         os.path.join(
             self.FLAGS.oneCLDataPath4Training,
             "y_label.npy"))
-    print "Load %s cell line data is done..." % (self.clName)
+    print("Load %s cell line data is done..." % (self.clName))
 
   # Transfer label from one col to two cols
   def transferLabel2TwoCol(self):
     firstRow = self.allTrainLabel.reshape(-1)
     secondRow = np.ones(firstRow.shape) - firstRow
     self.allTrainLabel = np.vstack((secondRow, firstRow)).transpose()
-    print "Transfer label from one col to two cols is done..."
+    print("Transfer label from one col to two cols is done...")
 
   # Generate unlabeled data for eggs
   def generateUnlabeledData4Eggs(self):
@@ -240,7 +240,7 @@ class DataPro:
     nonZeroIndex = np.where(self.mapMatrix == 0)
     self.allUnlabeledData = np.hstack(
         (self.tpData[nonZeroIndex[0]], self.drugData[nonZeroIndex[1]]))
-    print "Generate unlabeled data is done..."
+    print("Generate unlabeled data is done...")
 
   # Calc all distance
   def calcDistance(self, prob):
@@ -260,7 +260,7 @@ class DataPro:
 
     self.allTrainData = np.vstack((self.positiveData, self.negativeData))
     self.buildEnsembleLabel()
-    print "Load ensemble data and label is done..."
+    print("Load ensemble data and label is done...")
 
   # Build ensemble label
   def buildEnsembleLabel(self):
@@ -270,4 +270,4 @@ class DataPro:
 
     self.allTrainLabel = np.append(positiveLabel, negativeLabel)
     self.transferLabel2TwoCol()
-    print "Build ensemble label is done..."
+    print("Build ensemble label is done...")
