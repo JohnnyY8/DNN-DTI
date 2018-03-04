@@ -57,7 +57,7 @@ class ModelTrainer:
               self.xTrain.shape[0] * 1.0 / self.FLAGS.batchSize) + \
                   ind / self.FLAGS.batchSize
 
-          if ind4Summary % 100 == 99:  # Record execution stats
+          if ind4Summary % 100 == 99:  # Record execution states
             run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
             run_metadata = tf.RunMetadata()
             newTrainLoss, newTrainAccu, summary, tempTS = sess.run(
