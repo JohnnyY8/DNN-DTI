@@ -15,8 +15,6 @@ class BaseDNNModel(CommonModelFunc):
 
   # Building DNN graph for base model
   def buildBaseDNNModelGraph(self):
-    self.init = tf.global_variables_initializer()
-
     with tf.name_scope("dropOut"):
       self.keepProb = tf.placeholder(tf.float32, name = "keepProb")
       tf.summary.scalar("dropOutKeepProbability", self.keepProb)
@@ -119,3 +117,5 @@ class BaseDNNModel(CommonModelFunc):
       tf.summary.scalar("accuracy", self.accuracy)
 
     self.merged = tf.summary.merge_all()
+
+    self.init = tf.global_variables_initializer()
