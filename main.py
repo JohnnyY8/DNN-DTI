@@ -34,7 +34,7 @@ flags.DEFINE_string(
 flags.DEFINE_string(
     "path4Summaries",
     "./files/summaries",
-    "The path for saving eggs file.")
+    "The path for saving summaries.")
 
 flags.DEFINE_string(
     "path4SaveModel",
