@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 
 class GenerateEggs():
- 
+
   def __init__(self, FLAGS, insDataPro, modelSavePath):
     self.FLAGS = FLAGS
     self.insDataPro = insDataPro
