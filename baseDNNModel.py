@@ -93,7 +93,7 @@ class BaseDNNModel(CommonModelFunc):
               tf.nn.softmax_cross_entropy_with_logits(
                   logits = self.hOutput,
                   labels = self.yLabel)),
-          self.FLAGS.nWeight * nMistakeRes,
+          self.FLAGS.nWeight * nMistakeRes / self.xData.get_shape().as_list()[0],
           name = "loss")
       tf.summary.scalar("lossValue", tf.reduce_mean(self.loss))
 
