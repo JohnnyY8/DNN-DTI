@@ -78,7 +78,7 @@ class BaseDNNModel(CommonModelFunc):
           [-1, 2])
 
       pMistakeItem = tf.reshape(
-          tf.reduce_sum(
+          tf.reduce_mean(
               self.yLabel * self.yOutput,
               reduction_indices = [0]),
           [-1, 2])
@@ -93,7 +93,7 @@ class BaseDNNModel(CommonModelFunc):
               tf.nn.softmax_cross_entropy_with_logits(
                   logits = self.hOutput,
                   labels = self.yLabel)),
-          self.FLAGS.nWeight * nMistakeRes / self.hOutput.get_shape().as_list()[0],
+          self.FLAGS.nWeight * nMistakeRes,
           name = "loss")
       tf.summary.scalar("lossValue", tf.reduce_mean(self.loss))
 
